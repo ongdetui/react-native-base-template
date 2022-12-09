@@ -1,6 +1,6 @@
 {
-  "name": "react-native-new-template",
-  "version": "0.0.1",
+  "name": "react-native-base-template",
+  "version": "0.0.2",
   "description": "React Native Template",
   "repository": {
     "type": "git",

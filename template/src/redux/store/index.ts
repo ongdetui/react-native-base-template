@@ -3,37 +3,40 @@ import {setAutoFreeze} from 'immer';
 import {combineReducers} from 'redux';
 import logger from 'redux-logger';
 import {persistReducer, persistStore} from 'redux-persist';
-import thunk from 'redux-thunk';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {configureStore} from '@reduxjs/toolkit';
 
-import infoUserReducer, {IUserState} from '../slices/accountSlice';
+import appReducer, {IAppState} from '@redux/slices/appSlice';
+import createSagaMiddleware from 'redux-saga';
+import accountReducer, {IUserState} from '../slices/accountSlice';
+import rootSaga from './rootSagas';
 
 setAutoFreeze(false);
 
 export interface IRootState {
-  infoUser: IUserState;
-  // app: IAppState;
+  account: IUserState;
+  app: IAppState;
 }
 
 const reducers = combineReducers({
-  infoUser: infoUserReducer,
-  // app: appReducer,
+  account: accountReducer,
+  app: appReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   timeout: 100000,
-  whitelist: ['infoUser', 'app'],
+  whitelist: ['app'],
+  blacklist: ['account'],
 };
 
-let middleware = [thunk];
+const sagaMiddleware = createSagaMiddleware();
+let middleware = [sagaMiddleware];
 if (__DEV__) {
-  middleware.push(logger);
+  false && middleware.push(logger);
 }
-
 const persistedReducer = persistReducer(persistConfig, reducers);
 const store = configureStore({
   reducer: persistedReducer,
@@ -41,7 +44,6 @@ const store = configureStore({
   middleware: middleware,
 });
 const persistor = persistStore(store);
-
-console.log('ádf3>>>', store)
+sagaMiddleware.run(rootSaga);
 
 export {persistor, store};
