@@ -1,0 +1,15 @@
+{
+  "name": "react-native-new-template",
+  "version": "0.0.1",
+  "description": "React Native Template",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ongdetui/react-native-base-template.git",
+    "baseUrl": "https://github.com/ongdetui/react-native-base-template.git"
+  },
+  "author": {
+    "name": "Pham Duc",
+    "email": "ducphamvan0711@gmail.com"
+  },
+  "license": "MIT"
+}
